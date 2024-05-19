@@ -16,11 +16,15 @@ Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygu
 - [ ] Board üstünde aynı anda bulunabilecek maksimum görev sayısının kullanıcı tarafından belirli kriterlere göre değiştirilebilmesi.
 - [ ] Uygulamanın SQlite alternatifi bir veritabanı ile çalışacak hale getirilmesi.
 - [ ] Docker Compose desteği eklenmesi.
-- [ ] 
+- [ ] ...
 
 ## Developerlar İçin
 
+Uygulamanın basit mimari modeli aşağıdaki gibidir. DotNet cephesindekiler için tanıdık olabilir. Özellikle Blazor tabanlı web çözümleri geliştirenler için. Burada da benzer bir yaklaşım söz konusu. Önyüz tarafındaki bazı operasyonlar, örneğin REST servis çağrıları WASM olarak derlenen Rust kütüphanesi üzerinden işletilmekte. Çağrılar backend tarafta çalışan REST servisine _(ki o da Rust ile yazılmıştır)_ ulaşır. İletişim development ortamda üretilmiş deneysel OpenSSL sertifikaları üzerinden icra edilmektedir.
+
 ![architecture](images/can_ban_architecture.png)
+
+Tüm çözüm tek Workspace altındaki birkaç projeden oluşmaktadır. Backend klasöründe REST Api görevini üstlenen servis uygulaması, Frontend klasöründe Rust ile birlikte HTML, Bootstrap ve Javascript kullanan web projesi bulunur. Hem backend hem de frontend projelerindeki rust kütüphanelerinin kullandığı ortak enstrümanlar da Shared altındaki rust projesinde toplanmıştır.
 
 ### WASM Tarafı
 
@@ -89,4 +93,4 @@ Bu adımlardan sonra curl, postman veya browser'lardan https ile ilgili servis k
 
 ### Notlar
 
-- Web API tarafına ait testler için [Can-Ban Board Api.postman_collection.json](Can-Ban Board Api.postman_collection.json) Postman koleksiyonu kullanılabilir.
+- Web API tarafına ait testler için [postman_collection](postman_collection.json) Postman koleksiyonu kullanılabilir.
