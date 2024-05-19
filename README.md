@@ -2,6 +2,8 @@
 
 Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygulamasıdır.(Sistem programcıları bana kızmasın :D) Önyüz tarafında WASM çıktıları, HTML ve basit Javascript kullanılmıştır. Backend tarafında REST tabanlı servis kullanımı söz konusudur. Basit olması açısından SQLite dosyası ile çalışmaktadır.
 
+![runtime](images/can_ban_runtime.png)
+
 ## Uygulama Özellikleri
 
 - Uygulama tek seferde en fazla 5 görev olmasına izin verir.
@@ -17,6 +19,8 @@ Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygu
 - [ ] 
 
 ## Developerlar İçin
+
+![architecture](images/can_ban_architecture.png)
 
 ### WASM Tarafı
 
