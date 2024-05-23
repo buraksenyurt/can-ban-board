@@ -1,6 +1,7 @@
 # Can-Ban Board
 
 Youtube anlatımı...
+
 [![Anlatım](https://img.youtube.com/vi/a6KVjYGon1c/0.jpg)](https://www.youtube.com/watch?v=a6KVjYGon1c)
 
 Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygulamasıdır.(Sistem programcıları bana kızmasın :D) Önyüz tarafında WASM çıktıları, HTML ve basit Javascript kullanılmıştır. Backend tarafında REST tabanlı servis kullanımı söz konusudur. Basit olması açısından SQLite dosyası ile çalışmaktadır.

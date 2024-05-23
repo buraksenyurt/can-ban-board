@@ -1,4 +1,5 @@
 use crate::api::*;
+use crate::db::ExecuteResult;
 use crate::handlers::app_error::AppError;
 use crate::models::WorkItem;
 use crate::state::AppState;
@@ -44,20 +45,23 @@ impl WorkItemHandler {
         };
 
         match db.add_work_item(&new_item) {
-            Ok(id) => {
-                info!("{id}, New item has been added");
-                let planned_time = calculate_planned_finish_time(&new_item);
-                let response = WorkItemResponse {
-                    id,
-                    title: new_item.title,
-                    duration: new_item.duration,
-                    duration_type: new_item.duration_type,
-                    size: new_item.size,
-                    status: new_item.status,
-                    finish_date: planned_time,
-                };
-                HttpResponse::Created().json(response)
-            }
+            Ok(execute_result) => match execute_result {
+                ExecuteResult::WorkItemCreated(id) => {
+                    info!("{id}, New item has been added");
+                    let planned_time = calculate_planned_finish_time(&new_item);
+                    let response = WorkItemResponse {
+                        id,
+                        title: new_item.title,
+                        duration: new_item.duration,
+                        duration_type: new_item.duration_type,
+                        size: new_item.size,
+                        status: new_item.status,
+                        finish_date: planned_time,
+                    };
+                    HttpResponse::Created().json(response)
+                }
+                _ => HttpResponse::BadRequest().body("Create Error"),
+            },
             Err(e) => {
                 error!("{:?}", e);
                 HttpResponse::InternalServerError().body(e.to_string())
@@ -73,13 +77,11 @@ impl WorkItemHandler {
         let payload = body.into_inner();
         info!("{:?}", payload);
         match db.update_work_item_status(&payload) {
-            Ok(value) => {
-                if value == 1 {
-                    HttpResponse::Ok().finish()
-                } else {
-                    HttpResponse::NotFound().json("Item not found")
-                }
-            }
+            Ok(execute_result) => match execute_result {
+                ExecuteResult::UpdatedOneRow => HttpResponse::Ok().finish(),
+                ExecuteResult::NoRowsAffected => HttpResponse::NotFound().json("Item not found"),
+                _ => HttpResponse::BadRequest().finish(),
+            },
             Err(e) => {
                 error!("{:?}", e);
                 HttpResponse::InternalServerError().body(e.to_string())
@@ -93,13 +95,11 @@ impl WorkItemHandler {
     ) -> impl Responder {
         let db = data.db_context.lock().unwrap();
         match db.move_to_archive(body.into_inner().id) {
-            Ok(value) => {
-                if value == 1 {
-                    HttpResponse::Ok().finish()
-                } else {
-                    HttpResponse::NotFound().json("Item not found")
-                }
-            }
+            Ok(execute_result) => match execute_result {
+                ExecuteResult::MovedToArchive => HttpResponse::Ok().finish(),
+                ExecuteResult::NoRowsAffected => HttpResponse::NotFound().json("Item not found"),
+                _ => HttpResponse::BadRequest().finish(),
+            },
             Err(e) => {
                 error!("{:?}", e);
                 HttpResponse::InternalServerError().body(e.to_string())
@@ -110,13 +110,11 @@ impl WorkItemHandler {
     pub async fn delete(id: web::Path<u32>, data: Data<AppState>) -> impl Responder {
         let db = data.db_context.lock().unwrap();
         match db.delete(*id) {
-            Ok(value) => {
-                if value == 1 {
-                    HttpResponse::Ok().finish()
-                } else {
-                    HttpResponse::NotFound().json("Item not found")
-                }
-            }
+            Ok(execute_result) => match execute_result {
+                ExecuteResult::Deleted => HttpResponse::Ok().finish(),
+                ExecuteResult::NoRowsAffected => HttpResponse::NotFound().json("Item not found"),
+                _ => HttpResponse::BadRequest().finish(),
+            },
             Err(e) => {
                 error!("{:?}", e);
                 HttpResponse::InternalServerError().body(e.to_string())
