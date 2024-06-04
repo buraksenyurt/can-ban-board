@@ -1,0 +1,26 @@
+services:
+  wi_api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - backend/.docker.env
+    expose:
+      - 4448
+  can_ban:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    expose:
+      - 4447
+  gateway:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    depends_on:
+        - wi_api
+        - can_ban

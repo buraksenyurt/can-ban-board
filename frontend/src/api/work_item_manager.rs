@@ -7,7 +7,10 @@ use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
 use wasm_bindgen_futures::js_sys::JsString;
 
-const API_ROOT: &str = "https://localhost:4448/api";
+// reverse proxy'de "/api" prefix'i problem çıkartıyor,
+// "apiHandler.js" dosyasına erişmeye çalışınca frontend yerine api'de arama yapıyor
+// çünkü prefix "/api" olmuş oluyor :)
+const API_ROOT: &str = "https://localhost/api/v1";
 #[wasm_bindgen]
 pub struct WorkItemManager {}
 

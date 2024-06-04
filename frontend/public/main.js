@@ -1,7 +1,7 @@
 import init from './pkg/can_ban.js';
-import {setupFormListener} from './formHandler.js';
-import {fetchWorkItems} from "./apiHandler.js";
-import {displayBoardReport, displayWorkItems} from "./ui.js";
+import { setupFormListener } from './formHandler.js';
+import { fetchWorkItems } from "./apiHandler.js";
+import { displayBoardReport, displayWorkItems } from "./ui.js";
 
 async function run() {
     await init();

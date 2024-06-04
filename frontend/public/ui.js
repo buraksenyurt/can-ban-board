@@ -1,4 +1,4 @@
-import {WorkItemManager} from './pkg/can_ban.js';
+import { WorkItemManager } from './pkg/can_ban.js';
 
 function formatDateTime(value) {
     const date = new Date(value);
