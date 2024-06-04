@@ -1,4 +1,5 @@
 use crate::api::*;
+use crate::db::execute_result::ExecuteResult;
 use crate::handlers::app_error::AppError;
 use crate::models::{SummaryReport, WorkItem};
 use crate::utility::calculate_planned_finish_time;
@@ -38,7 +39,7 @@ impl DbContext {
         Ok(Self { conn })
     }
 
-    pub fn add_work_item(&self, item: &WorkItem) -> Result<u32> {
+    pub fn add_work_item(&self, item: &WorkItem) -> Result<ExecuteResult> {
         let finish_date = calculate_planned_finish_time(item).unwrap().to_rfc3339();
         self.conn.execute(
             "INSERT INTO work_items (title, duration, duration_type, size, status, create_date, finish_date)
@@ -53,10 +54,12 @@ impl DbContext {
                 finish_date
             ],
         )?;
-        Ok(self.conn.last_insert_rowid() as u32)
+        Ok(ExecuteResult::WorkItemCreated(
+            self.conn.last_insert_rowid() as u32,
+        ))
     }
 
-    pub fn update_work_item_status(&self, payload: &UpdateStatusRequest) -> Result<u64> {
+    pub fn update_work_item_status(&self, payload: &UpdateStatusRequest) -> Result<ExecuteResult> {
         let rows_affected = self.conn.execute(
             "UPDATE work_items SET status = ?1, modified_date=?2 WHERE id= ?3",
             params![
@@ -66,34 +69,34 @@ impl DbContext {
             ],
         )?;
         if rows_affected == 0 {
-            Ok(0)
+            Ok(ExecuteResult::NoRowsAffected)
         } else {
-            Ok(1)
+            Ok(ExecuteResult::UpdatedOneRow)
         }
     }
 
-    pub fn move_to_archive(&self, id: u32) -> Result<u64> {
+    pub fn move_to_archive(&self, id: u32) -> Result<ExecuteResult> {
         info!("{id} is moving to archive");
         let rows_affected = self.conn.execute(
             "UPDATE work_items SET archived = 1, modified_date=?1 WHERE id = ?2",
             params![Local::now().to_rfc3339(), id],
         )?;
         if rows_affected == 0 {
-            Ok(0)
+            Ok(ExecuteResult::NoRowsAffected)
         } else {
-            Ok(1)
+            Ok(ExecuteResult::MovedToArchive)
         }
     }
 
-    pub fn delete(&self, id: u32) -> Result<u64> {
+    pub fn delete(&self, id: u32) -> Result<ExecuteResult> {
         info!("{id} is deleting");
         let rows_affected = self
             .conn
             .execute("DELETE FROM work_items WHERE id = ?1", params![id])?;
         if rows_affected == 0 {
-            Ok(0)
+            Ok(ExecuteResult::NoRowsAffected)
         } else {
-            Ok(1)
+            Ok(ExecuteResult::Deleted)
         }
     }
 

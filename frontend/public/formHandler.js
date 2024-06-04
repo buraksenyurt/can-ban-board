@@ -1,4 +1,4 @@
-import {addTodoCard, showAlert} from './ui.js';
+import {addTodoCard, displayBoardReport, showAlert} from './ui.js';
 import {createWorkItem, getWorkItemsCount} from './apiHandler.js';
 
 export function setupFormListener() {
@@ -43,6 +43,7 @@ export function setupFormListener() {
             addTodoCard(workItem);
             form.reset();
             showAlert('A new work item was successfully created!', 'success');
+            await displayBoardReport();
         } catch (error) {
             console.error('API call failed:', error);
             showAlert(`Failed to create a new work item. Reason: ${error}`, 'danger');

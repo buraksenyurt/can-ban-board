@@ -1,14 +1,14 @@
 [package]
 name = "wi_api"
 version = "0.1.0"
+description = "Rest based web api for Can-Ban Board frontend"
 edition = "2021"
+authors = ["Burak Selim Senyurt"]
 
 [dependencies]
 actix-cors = "0.7.0"
-actix-rt = "2.9.0"
-actix-web = { version = "4.5.1",features = ["openssl"] }
+actix-web = { version = "4.5.1", features = ["openssl"] }
 chrono = { version = "0.4.38", features = ["serde"] }
-env_logger = "0.11.3"
 log = "0.4.21"
 rusqlite = "0.31.0"
 serde = { version = "1.0.200", features = ["derive"] }
@@ -19,3 +19,7 @@ openssl = { version = "0.10.64", features = ["v110"] }
 rustls = "0.23.7"
 validator = { version = "0.18.1", features = ["derive"] }
 thiserror = "1.0.61"
+env_logger = "0.11.3"
+
+[dev-dependencies]
+actix-rt = "2.9.0"
