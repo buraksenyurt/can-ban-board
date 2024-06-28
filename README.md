@@ -1,12 +1,19 @@
 # Can-Ban Board
 
-Youtube anlatımı...
-
-[![Anlatım](https://img.youtube.com/vi/a6KVjYGon1c/0.jpg)](https://www.youtube.com/watch?v=a6KVjYGon1c)
-
-Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygulamasıdır.(Sistem programcıları bana kızmasın :D) Önyüz tarafında WASM çıktıları, HTML ve basit Javascript kullanılmıştır. Backend tarafında REST tabanlı servis kullanımı söz konusudur. Basit olması açısından SQLite dosyası ile çalışmaktadır.
-
 ![runtime](images/can_ban_runtime.png)
+
+Rust tabanlı gündelik görevlerimizi yönetebileceğimiz deneysel bir web uygulamasıdır.(Sistem programcıları bana kızmasın :D) Önyüz tarafında WASM çıktıları, HTML ve basit Javascript kullanılmıştır. Backend tarafında REST tabanlı servis kullanımı söz konusudur. Basit olması açısından SQLite dosyası ile çalışmaktadır. [Youtube anlatımı için ->](https://www.youtube.com/watch?v=a6KVjYGon1c)
+
+- [Can-Ban Board](#can-ban-board)
+  - [Uygulama Özellikleri](#uygulama-özellikleri)
+  - [Eklenmesi Planlanan Özellikler veya İstekleriniz](#eklenmesi-planlanan-özellikler-veya-i̇stekleriniz)
+  - [Developerlar İçin](#developerlar-i̇çin)
+    - [WASM Tarafı](#wasm-tarafı)
+    - [Backend Tarafı](#backend-tarafı)
+    - [Sunucu Yayınlama](#sunucu-yayınlama)
+    - [Alternatif Çalışma Zamanı](#alternatif-çalışma-zamanı)
+    - [HTTPS Desteği](#https-desteği)
+    - [Notlar](#notlar)
 
 ## Uygulama Özellikleri
 
